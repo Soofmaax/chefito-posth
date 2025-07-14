@@ -1,0 +1,25 @@
+# Alembic Setup
+
+1. Initialize Alembic in your project root:
+   ```bash
+   alembic init alembic
+   ```
+
+2. Edit `alembic.ini` to set the `sqlalchemy.url` with the same DATABASE_URL as in `.env`.
+
+3. In `alembic/env.py`, import `Base` and the SQLAlchemy models:
+   ```python
+   from app.database import engine, Base
+   from app import models  # ensures models are registered
+   target_metadata = Base.metadata
+   ```
+
+4. Generate the first migration:
+   ```bash
+   alembic revision --autogenerate -m "create recipe tables"
+   ```
+
+5. Apply migrations:
+   ```bash
+   alembic upgrade head
+   ```

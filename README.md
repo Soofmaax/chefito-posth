@@ -47,9 +47,22 @@ A production-ready cooking assistant platform that makes cooking accessible and 
 
 ### **1. VPS Security Setup (CRITICAL FIRST STEP)**
 
-Run the security setup script to create a non-root user and secure your VPS:
+Run the security setup script to create a non-root user and secure your VPS.
+Ensure PostgreSQL is installed and running on the VPS (the script installs it
+if missing). Confirm you can connect before moving on.
+
+> **Where are the scripts?** The `scripts/` directory isn't included in this
+> repository.
+> **Option A (recommended)**: clone the helper scripts from
+> [chefito-scripts](https://github.com/soofmaax/chefito-scripts) and copy the
+> folder next to this project.
+> **Option B**: manually create the scripts using the examples in
+> `scripts_content.md`.
 
 ```bash
+# Clone the helper scripts if you haven't already
+git clone https://github.com/soofmaax/chefito-scripts.git scripts
+
 # Make the script executable
 chmod +x scripts/setup_vps_security.sh
 
@@ -70,9 +83,11 @@ This script will:
 
 ### **2. Automated Recipe Pipeline**
 
-Use the enhanced pipeline script to manage 30+ recipes automatically:
-
+Use the enhanced pipeline script to manage 30+ recipes automatically. If you
+don't yet have the `scripts/` folder, clone it now:
 ```bash
+git clone https://github.com/soofmaax/chefito-scripts.git scripts
+
 # Make the script executable
 chmod +x scripts/run_recipe_pipeline.sh
 
@@ -136,6 +151,19 @@ OLLAMA_MODEL=llama3:8b-instruct-q4_K_M
 # RevenueCat (Optional - for subscriptions)
 NEXT_PUBLIC_REVENUECAT_API_KEY=your_revenuecat_public_api_key
 ```
+
+Copy `.env.example` to `.env` and update these PostgreSQL variables for local
+development. Define the same variables on your VPS or Netlify to allow the
+backend to connect to your database.
+
+### **4. Database Setup**
+
+1. Ensure your PostgreSQL service is running and accessible.
+2. Apply database migrations:
+   ```bash
+   alembic upgrade head
+   ```
+   (See `alembic_instructions.txt` for full setup details.)
 
 ## 📡 **API Architecture**
 
@@ -288,6 +316,23 @@ AI: "For step 3 of your fried rice recipe, if the rice is sticky,
 - **Context caching**: Recipe context cached per session
 - **Streaming responses**: Real-time AI response delivery
 - **Fallback responses**: Instant fallbacks when AI unavailable
+
+## 🧪 **Testing**
+
+Run the Python tests with **pytest** and the Flutter tests with **dart test**.
+
+```bash
+# install Python dependencies
+pip install -r requirements.txt
+
+pytest -q
+
+# fetch Dart packages
+flutter pub get
+dart test
+```
+
+Ensure all dependencies (FastAPI, Pydantic, SQLAlchemy, etc.) and the Flutter SDK are installed before running the commands.
 
 ## 👥 **About the Creator**
 

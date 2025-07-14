@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+pillow
+numpy
+sqlalchemy
+alembic
+pytest
+httpx
